@@ -7,7 +7,7 @@ export class PagerdutyLambdaCdkStack extends cdk.Stack {
 
     const errorTopicArn = new cdk.CfnParameter(this, "errorTopicArn", {
       type: "String",
-      description: "エラー発報用のSNSトピックのARN",
+      description: "ARN of SNS topic for error alert",
     });
 
     const pagerDutyIntegrationKey = new cdk.CfnParameter(
@@ -34,10 +34,12 @@ export class PagerdutyLambdaCdkStack extends cdk.Stack {
       errorTopicArn.valueAsString
     );
 
+    const region = cdk.Stack.of(this).region;
+
     const codeBucket = cdk.aws_s3.Bucket.fromBucketArn(
       this,
       "CodeBucket",
-      "arn:aws:s3:::quick-create-cfn-template"
+      `arn:aws:s3:::pagerduty-lambda-handler-${region}`
     );
 
     const errorNotificationLambda = new cdk.aws_lambda.Function(
@@ -47,10 +49,7 @@ export class PagerdutyLambdaCdkStack extends cdk.Stack {
         functionName: "PagerDutyLambda",
         description: "アラートをPagerDutyと連携するLambda",
         architecture: cdk.aws_lambda.Architecture.ARM_64,
-        code: cdk.aws_lambda.Code.fromBucket(
-          codeBucket,
-          "pagerduty-lambda-handler/index.zip"
-        ),
+        code: cdk.aws_lambda.Code.fromBucket(codeBucket, "index.zip"),
         handler: "index.handler",
         runtime: cdk.aws_lambda.Runtime.NODEJS_20_X,
         environment: {
