@@ -1,0 +1,16 @@
+{
+  "name": "handler",
+  "version": "0.1.0",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild": "cd dist && zip -r index.zip index.js*",
+    "upload": "aws s3 cp ./dist/index.zip s3://quick-create-cfn-template/pagerduty-lambda-handler/index.zip"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "8.10.138",
+    "aws-lambda": "1.0.7",
+    "axios": "1.7.2",
+    "dotenv": "16.4.5"
+  }
+}

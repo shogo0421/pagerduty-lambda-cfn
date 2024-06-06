@@ -1,0 +1,10 @@
+{
+  "extends": ["@classmethod"],
+  "parserOptions": {
+    "project": true,
+    "sourceType": "module",
+    "ecmaVersion": 2015
+  },
+  "ignorePatterns": ["**/*.js"],
+  "parser": "@typescript-eslint/parser"
+}
