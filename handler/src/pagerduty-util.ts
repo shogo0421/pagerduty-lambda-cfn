@@ -39,10 +39,10 @@ export const postPagerDuty = async (
   }
 };
 
-export const jsonCheck = (jsonString: string): boolean => {
+export const jsonCheck = (jsonString: string, property: string): boolean => {
   try {
-    JSON.parse(jsonString);
-    return true;
+    const jsonObj = JSON.parse(jsonString);
+    return jsonObj.hasOwnProperty(property);
   } catch (e) {
     return false;
   }

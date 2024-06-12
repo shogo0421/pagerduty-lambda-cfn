@@ -126,8 +126,11 @@ export const handler: Handler = async (event: SNSEvent) => {
   const source = snsMessage.AlarmName;
   const timestamp = event.Records[0].Sns.Timestamp;
 
-  const isJson = jsonCheck(triggerLogMessage);
-  if (isJson) {
+  const isLambdaPowerTools = jsonCheck(
+    triggerLogMessage,
+    "function_request_id"
+  );
+  if (isLambdaPowerTools) {
     // エラーと関連した一連のログを取得
     messageForIncident = await getErrorLogMessage(triggerLogMessage, filter);
     await postPagerDuty(summary, source, messageForIncident, timestamp);
