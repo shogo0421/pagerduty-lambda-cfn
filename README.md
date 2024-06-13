@@ -52,7 +52,7 @@ CloudWatch Logs上に手動でイベントログを作成します。
 
 「CFNテンプレートを更新してS3に配置」
 
-- cdkのコードを変更した後、`build:cdk`でビルド
+- cdkのコードを変更した後、`npm run build:cdk`でビルド
 - CFNテンレート(cdk/cdk.out/PagerdutyLambdaCdkStack.template.json)からBootstrapVersionというパラメータ、それと関連する箇所を手動で削除  
   (BootstrapVersionはCDKからのデプロイ時に利用され、今回はCloudFormationからデプロイのため不要)
 - `upload:cfn`でCFNテンプレートをS3バケット(s3://quick-create-cfn-template)に配置
@@ -61,9 +61,9 @@ CloudWatch Logs上に手動でイベントログを作成します。
 
 「Lambdaのスクリプトを更新してS3に配置」
 
-- lambdaのコードを変更した後、`build:cdk`でビルド
+- lambdaのコードを変更した後、`npm run build:handler`でビルド
   (依存ライブラリも一緒にバンドルされる)
-- `upload:handler`でS3にビルド生成物を配置
+- `npm run upload:handler`でS3にビルド生成物を配置
 
 ## デプロイできるリージョンについて
 
@@ -76,4 +76,4 @@ CloudWatch Logs上に手動でイベントログを作成します。
   s3://pagerduty-lambda-handler-${リージョン名}
 - 既存のバケットを参考にバケットポリシーをアタッチ
 - handler/package.jsonのスクリプトを更新する
-- `upload:handler`で新しいリージョンのバケットにもスクリプト配置
+- `npm run upload:handler`で新しいリージョンのバケットにもスクリプト配置
